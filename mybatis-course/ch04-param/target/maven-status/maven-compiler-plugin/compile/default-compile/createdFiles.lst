@@ -1,0 +1,3 @@
+com\gracepowernode\domain\Student.class
+com\gracepowernode\dao\StudentDao.class
+com\gracepowernode\utils\MyBatisUtils.class

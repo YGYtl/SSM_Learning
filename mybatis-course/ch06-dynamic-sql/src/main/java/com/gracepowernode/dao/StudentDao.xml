@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gracepowernode.dao.StudentDao">
+    <!-- sql代码片段 -->
+    <sql id="studentSql">
+        select id, name, email, age from student
+    </sql>
+
+    <!-- if
+        <if::test="使用参数java对象的属性值作为判断条件，语法 属性=xxx值">
+     -->
+    <select id="selectStudentIf" resultType="com.gracepowernode.domain.Student" >
+        <include refid="studentSql" />
+        where id > 0
+        <if test="paramName != null and paramName != '' ">
+            and name = #{paramAge}
+        </if>
+        <if test="paramAge > 0">
+            or age > #{paramAge}
+        </if>
+    </select>
+
+
+    <!--
+        where：<where> <if> <if>... </where>
+    -->
+    <select id="selectStudentWhere" resultType="com.gracepowernode.domain.Student">
+        <include refid="studentSql" />
+        <where>
+            <if test="paramName != null and paramName != '' ">
+                and name = #{paramAge}
+            </if>
+            <if test="paramAge > 0">
+                or age > #{paramAge}
+            </if>
+        </where>
+
+    </select>
+
+
+
+    <!--foreach使用1，List<Integer> -->
+    <select id="selectForeachOne" resultType="com.gracepowernode.domain.Student">
+        <include refid="studentSql" /> where id in
+        <foreach collection="list" item="myid" open="(" close=")" separator=",">
+            #{myid}
+        </foreach>
+    </select>
+
+    <!--foreach使用2，List<Student>-->
+    <select id="selectForeachTwo" resultType="com.gracepowernode.domain.Student">
+        <include refid="studentSql" /> where id in
+        <foreach collection="list" item="stu" open="(" close=")" separator=",">
+            #{stu.id}
+        </foreach>
+    </select>
+
+
+    <select id="selectAllStudent" resultType="com.gracepowernode.domain.Student">
+        select * from student order by id
+    </select>
+</mapper>

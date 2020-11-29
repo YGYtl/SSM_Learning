@@ -1,0 +1,5 @@
+com\gracepowernode\domain\Student.class
+com\gracepowernode\dao\StudentDao.class
+com\gracepowernode\MyApp2.class
+com\gracepowernode\utils\MyBatisUtils.class
+com\gracepowernode\MyApp.class

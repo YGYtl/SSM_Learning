@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gracepowernode.dao.StudentDao">
+    <select id="selectMulitParam" resultType="com.gracepowernode.domain.Student">
+        select * from student where name=#{myname} or age=#{myage}
+    </select>
+
+    <select id="selectMultiObject" resultType="com.gracepowernode.domain.Student">
+        select * from student where name=#{paramName} or age=#{paramAge}
+    </select>
+
+    <select id="CountStudent" resultType="int">
+        select count(*) from student
+    </select>
+
+
+    <!--
+        返回map
+        1)列名是map的key，列值是map的value
+        2)只能最多返回一行记录。多于一行是错误
+    -->
+
+    <!--
+        使用resultMap
+        1)先定义resultMap
+        2)在select标签，使用resultMap来引用定义的
+    -->
+    <!--定义resultMap
+        id：自定义名称，表示你定义的这个resultMap
+        type：java类型的全限定名称
+    -->
+    <resultMap id="studentMap" type="com.gracepowernode.domain.Student">
+        <!--
+            定义列名和java属性的关系
+            注意列，使用id标签
+            column：数据库中的列名
+            property：java类型的属性名
+        -->
+        <id column="id" property="id" />
+        <!--非主键列，使用result-->
+        <result column="name" property="name" />
+        <result column="email" property="email" />
+        <result column="age" property="age" />
+    </resultMap>
+    <select id="selectAllStudents" resultMap="studentMap">
+        select id, name, email, age from student
+    </select>
+
+
+
+    <!--当列名和属性名不一样之第一种方式-->
+    <resultMap id="myStudentMap2" type="com.gracepowernode.ov.myStudent">
+        <id column="id" property="stuid" />
+        <!--非主键列，使用result-->
+        <result column="name" property="stuname" />
+        <result column="email" property="stuemail" />
+        <result column="age" property="stuage" />
+    </resultMap>
+    <select id="selectAllStudents2" resultMap="myStudentMap2">
+        select id, name, email, age from student;
+    </select>
+
+    <!--
+        当列名和属性名不一样之第二种方式
+        resultType的默认原则是 同名的列值赋值给同名的属性，使用列别名(java对象的属性名)
+
+    -->
+    <select id="selectDiffColProperty" resultType="com.gracepowernode.ov.myStudent">
+        select id as stuid, name as stuname, email as stuemail, age as stuage from student;
+    </select>
+
+
+
+    <!--第一种Like模糊查询-->
+    <select id="selectLikeOne" resultType="com.gracepowernode.domain.Student">
+        select id, name, email, age from student where name like #{myname}
+    </select>
+
+    <!--第二种Like模糊查询：在mapper文件中拼接 like的内容-->
+    <select id="selectLikeTwo" resultType="com.gracepowernode.domain.Student">
+        select id, name, email, age from student where name like "%" #{myname} "%"
+    </select>
+</mapper>

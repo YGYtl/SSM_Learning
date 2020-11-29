@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--定义别名-->
+    <typeAliases>
+        <!--第一种方式：<typeAlias type="", alias="">
+            可以指定一个类型一个自定义别名
+            type：自定义类型的全限定名称
+            alias：别名（短小，容易记忆）
+            <typeAlias type="com.gracepowernode.ov.DemoStudent" alias="dstu" />
+        -->
+        <typeAlias type="com.gracepowernode.ov.DemoStudent" alias="dstu" />
+
+        <!--第二种方式：
+            <package name="com.gracepowernode.ov" />
+            name是包名，这个包中的所有类，类名就是别名（类名不区分大小写）
+        -->
+    </typeAliases>
+
+    <environments default="mydev">
+        <environment id="mydev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm?useSSL=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <mapper resource="com/gracepowernode/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>
